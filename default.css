@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+main {
+    line-height: 1.8;
+    margin-bottom: 10ex;
+}
+
+button {
+    margin-bottom: 2ex;
+    width: 90vw;
+}
+
+svg {
+    border: 1px solid gray;
+    width: 90vw;
+    height: 90vw;
+}
+
+table {
+    margin-top: 1ex;
+}
+
+table td {
+    padding-right: 2ex;
+}
+
+.number {
+    text-align: right;
+}
+
+.running {
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+@media (orientation: landscape) {
+
+    main {
+        line-height: 1.5;
+    }
+
+    button {
+        width: 90vh;
+    }
+
+    svg {
+        width: 90vh;
+        height: 90vh;
+    }
+
+}
+

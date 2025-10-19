@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="./icon.ico" sizes="32x32">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon.png">
+<link rel="stylesheet" type="text/css" href="./default.css">
+<script src="https://7131.github.io/jmotion/v10/jmotion.js"></script>
+<script src="./animator.js"></script>
+<script src="./decorator.js"></script>
+<script src="./controller.js"></script>
+<title>TapJuggler</title>
+</head>
+
+<body>
+<header>
+<h1>TapJuggler</h1>
+</header>
+
+<main>
+<div>
+  <button id="play">Play</button>
+</div>
+<div>
+  <svg id="board">
+    <defs>
+      <g id="robot_body" fill="white" stroke="black" stroke-linejoin="round">
+        <rect x="-30" y="-140" width="60" height="70" />
+        <circle r="8" cx="-12" cy="-115" />
+        <path id="robot_eye" d="m -20,-115 c 0,0 16,0 16,0" />
+        <line x1="-12" y1="-123" x2="-12" y2="-107" />
+        <circle r="8" cx="12" cy="-115" />
+        <circle id="robot_pupil" r="3" cx="12" cy="-115" fill="black" />
+        <rect x="-8" y="-90" rx="2" width="16" height="5" />
+        <line x1="15" y1="-140" x2="15" y2="-150" />
+        <path id="robot_antenna" d="m 15,-150 v -10 l -5,-5 h 10 l -5,5" />
+        <rect x="-16" y="-70" width="32" height="10" />
+        <rect x="-50" y="-60" rx="10" width="100" height="90" />
+        <rect x="-20" y="30" width="10" height="45" />
+        <rect x="-40" y="75" width="35" height="10" fill="brown" />
+        <rect x="10" y="30" width="10" height="45" />
+        <rect x="5" y="75" width="35" height="10" fill="slateblue" />
+      </g>
+      <line id="robot_right_0" x1="-110" y1="-10" x2="-90" y2="20" stroke="lightslategray" stroke-width="7" stroke-linecap="round" />
+      <line id="robot_right_1" x1="-90" y1="20" x2="-50" y2="-50" stroke="slategray" stroke-width="7" stroke-linecap="round" />
+      <line id="robot_left_0" x1="110" y1="-10" x2="90" y2="20" stroke="lightslategray" stroke-width="7" stroke-linecap="round" />
+      <line id="robot_left_1" x1="90" y1="20" x2="50" y2="-50" stroke="slategray" stroke-width="7" stroke-linecap="round" />
+      <path id="robot_hand" d="m -12,-10 c 0,16 24,16 24,0 h -4 c 0,10 -16,10 -16,0 z" fill="lightblue" stroke="navy" />
+      <use id="robot_right_hand" href="#robot_hand" x="-110" y="-10" />
+      <use id="robot_left_hand" href="#robot_hand" x="110" y="-10" />
+      <ellipse id="orbit_right_elbow" cx="-100" cy="-50" rx="20" ry="80" />
+      <ellipse id="orbit_left_elbow" cx="100" cy="-50" rx="20" ry="80" />
+      <g id="ground">
+        <rect x="-500" y="85" width="1000" height="300" fill="bisque" stroke="none"></rect>
+        <path d="m -350,85 v -15 c -5,5 -10,5 -15,0 c 5,-5 10,-5 15,0 c 5,-5 10,-5 15,0 c -5,5 -10,5 -15,0 z" fill="yellowgreen" stroke="green"></path>
+        <path d="m 350,85 c 0,-12 25,-12 25,0 h -8 c 0,-5 10,-8 10,0 z" fill="lightgray" stroke="gray"></path>
+      </g>
+      <text id="message" font-size="16px" text-anchor="middle" />
+      <rect id="curtain" fill="lightgray" fill-opacity="0.8" />
+      <text id="caption" font-size="32px" text-anchor="middle" />
+    </defs>
+  </svg>
+</div>
+<table>
+  <tr><td>Level</td><td id="level" class="number">0</td></tr>
+  <tr><td>Score</td><td id="score" class="number">0</td></tr>
+  <tr><td>High score</td><td id="highest" class="number">0</td></tr>
+</table>
+
+</main>
+</body>
+
+</html>
