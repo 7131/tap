@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-main {
+body {
     line-height: 1.8;
     margin-bottom: 10ex;
 }
@@ -36,7 +36,7 @@ table td {
 
 @media (orientation: landscape) {
 
-    main {
+    body {
         line-height: 1.5;
     }
 
