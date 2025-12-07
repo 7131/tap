@@ -1,6 +1,7 @@
 # TapJuggler game
 
-https://7131.github.io/tap/
+English site: https://7131.github.io/tap/<br>
+Japanese site: https://app.7131.jp/tap/
 
 This is a juggling game where you tap (or click) the screen to play.
 This is something I came up with as an application example of [jmotion](https://github.com/7131/jmotion/) library.
