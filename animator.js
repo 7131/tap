@@ -4,7 +4,6 @@ class BallAnimator {
     // constructor
     constructor(owner) {
         this.owner = owner;
-        this.direction = "cross";
     }
 
     // setup the properties
@@ -108,13 +107,11 @@ class BallCollection {
             this.#stock.push(new BallAnimator(this));
         }
         this.#setBalls(0, this.count);
-        this.#setDirections();
     }
 
     // setup to restart
     setupRestart() {
         this.#setBalls(0, this.count);
-        this.#setDirections();
     }
 
     // setup for speed-up
@@ -134,7 +131,6 @@ class BallCollection {
                 ball.dy = dy;
             }
         }
-        this.#setDirections();
     }
 
     // add a ball
@@ -148,7 +144,6 @@ class BallCollection {
             this.#stock.push(new BallAnimator(this));
         }
         this.#setBalls(before, 1);
-        this.#setDirections();
     }
 
     // get initial velocity
@@ -199,28 +194,6 @@ class BallCollection {
         }
     }
 
-    // set the direction of throw
-    #setDirections() {
-        const balls = this.#stock.slice(0, this.count);
-        if (this.count % 2 == 1) {
-            // odd number
-            balls.forEach(elem => elem.direction = "cross");
-            return;
-        }
-
-        // even number
-        const right = balls.filter(elem => elem.dx < 0);
-        const left = balls.filter(elem => 0 <= elem.dx);
-        right.forEach(elem => elem.direction = "right");
-        left.forEach(elem => elem.direction = "left");
-        const diff = (right.length - left.length) / 2;
-        if (0 < diff) {
-            right.slice(0, diff).forEach(elem => elem.direction = "left");
-        } else if (diff < 0) {
-            left.slice(0, -diff).forEach(elem => elem.direction = "right");
-        }
-    }
-
 }
 
 // Arm animator class
@@ -234,7 +207,7 @@ class ArmAnimator {
         this.home = [ hand, elbow ];
 
         // initialize data
-        this.direction = "";
+        this.owner = null;
         this.current = this.home;
         this.future = [];
         this.another = null;
@@ -264,11 +237,8 @@ class ArmAnimator {
 
         // change the orbit of the ball
         const ball = this.lock;
-        let home = this.another.home;
-        if (ball.direction == this.direction) {
-            home = this.home;
-        }
-        ball.dx = (home[0].x - ball.x) * Math.max(1, ball.owner.scale / 2) / 100;
+        const x = this.owner.switchDirection();
+        ball.dx = (x - ball.x) * Math.max(1, ball.owner.scale / 2) / 100;
         ball.dy = ball.owner.getVelocity(ball.y);
         this.lock = null;
     }
@@ -323,6 +293,7 @@ class ArmAnimator {
 class ArmCollection {
     #right;
     #left;
+    #direction;
     #prev = null;
     #orbits = [];
 
@@ -330,10 +301,11 @@ class ArmCollection {
     constructor(right, left) {
         this.#right = right;
         this.#left = left;
-        this.#right.direction = "right";
-        this.#left.direction = "left";
+        this.#direction = left;
         this.#right.another = left;
         this.#left.another = right;
+        this.#right.owner = this;
+        this.#left.owner = this;
 
         // calculate coordinates of the ellipse
         for (let i = 0; i < 5; i++) {
@@ -350,9 +322,12 @@ class ArmCollection {
     }
 
     // setup the properties
-    setup() {
+    setup(init) {
         this.#right.setup();
         this.#left.setup();
+        if (init) {
+            this.#direction = this.#left;
+        }
     }
 
     // draw the current state
@@ -418,6 +393,17 @@ class ArmCollection {
         ball.setFuture(new Array(first.length).fill({}).concat(follow));
     }
 
+    // switch throwing direction
+    switchDirection() {
+        const current = this.#direction;
+        if (current == this.#right) {
+            this.#direction = this.#left;
+        } else {
+            this.#direction = this.#right;
+        }
+        return current.home[0].x;
+    }
+
 }
 
 // Motion creator class
@@ -440,7 +426,7 @@ class MotionCreator {
                 this.balls.setupStart(count);
             }
         }
-        this.arms.setup();
+        this.arms.setup(!follow);
     }
 
     // add a ball
