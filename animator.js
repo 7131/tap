@@ -20,14 +20,18 @@ class BallAnimator {
         if (0 < this.future.length) {
             // if the next position is fixed
             const point = this.future.shift();
-            if (!isNaN(point.x) && !isNaN(point.y)) {
-                this.x = point.x;
-                this.y = point.y;
+            const x = parseFloat(point.x);
+            const y = parseFloat(point.y);
+            if (!isNaN(x) && !isNaN(y)) {
+                this.x = x;
+                this.y = y;
 
                 // score calculation
-                if (this.future.length == 0 && this.owner.events.has("score") && 0 < point.z) {
-                    const base = Math.floor((point.y - this.owner.top) * this.owner.count / 100);
-                    const score = (Math.max(0, base) + point.w) * point.z;
+                const z = parseFloat(point.z);
+                const w = parseFloat(point.w);
+                if (this.future.length == 0 && this.owner.events.has("score") && 0 < z) {
+                    const base = Math.floor((y - this.owner.top) * this.owner.count / 100);
+                    const score = (Math.max(0, base) + w) * z;
                     this.owner.events.get("score")({ "score": score });
                 }
                 return;
@@ -62,14 +66,15 @@ class BallAnimator {
     // get the position
     getPosition(gap) {
         const result = { "x": this.x, "y": this.y, "dy": this.dy };
-        if (isNaN(gap) || gap == 0) {
+        const number = parseFloat(gap);
+        if (isNaN(number) || number == 0) {
             return result;
         }
 
         // coordinate calculation
-        result.x += this.dx * gap;
-        result.y += this.dy * gap + this.owner.half * gap * (gap - 1);
-        result.dy += this.owner.accel * gap;
+        result.x += this.dx * number;
+        result.y += this.dy * number + this.owner.half * number * (number - 1);
+        result.dy += this.owner.accel * number;
         return result;
     }
 
@@ -417,13 +422,14 @@ class MotionCreator {
 
     // setup the properties
     setup(count, follow) {
-        if (isNaN(count)) {
+        const number = parseFloat(count);
+        if (isNaN(number)) {
             this.balls.setupRestart();
         } else {
             if (follow) {
-                this.balls.setupSpeed(count);
+                this.balls.setupSpeed(number);
             } else {
-                this.balls.setupStart(count);
+                this.balls.setupStart(number);
             }
         }
         this.arms.setup(!follow);

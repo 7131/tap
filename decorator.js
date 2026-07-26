@@ -7,8 +7,9 @@ class EffectorBase {
 
     // constructor
     constructor(count) {
-        if (!isNaN(count) && 0 <= count) {
-            this.#count = count;
+        const number = parseInt(count, 10);
+        if (!isNaN(number) && 0 <= number) {
+            this.#count = number;
         }
     }
 
@@ -225,10 +226,11 @@ class ZoomEffector extends EffectorBase {
 
     // run the effector
     run(target) {
-        if (!isNaN(target) && 0 < target) {
-            this.#target = target;
-        } else {
+        const number = parseFloat(target);
+        if (isNaN(number) || number <= 0) {
             this.#target = this.#scale;
+        } else {
+            this.#target = number;
         }
         super.run();
     }
