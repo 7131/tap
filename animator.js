@@ -411,8 +411,8 @@ class ArmCollection {
 
 }
 
-// Motion creator class
-class MotionCreator {
+// Motion generator class
+class MotionGenerator {
 
     // constructor
     constructor(view, right, left) {

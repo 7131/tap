@@ -308,7 +308,7 @@ class Decorator {
         this.#message = this.#setShape("message");
         this.#curtain = this.#setShape("curtain");
         this.#caption = this.#setShape("caption");
-        this.#effectors = this.#createEffectors();
+        this.#effectors = this.#generateEffectors();
 
         // initial value of each element
         const view = this.#svg.viewBox.baseVal;
@@ -366,8 +366,8 @@ class Decorator {
         this.#effectors.zoom.run(ratio);
     }
 
-    // create effectors
-    #createEffectors() {
+    // generate effectors
+    #generateEffectors() {
         const first = new CaptionEffector(this.#caption, "1st try", "coral");
         const second = new CaptionEffector(this.#caption, "2nd try", "coral");
         const third = new CaptionEffector(this.#caption, "3rd try", "coral");

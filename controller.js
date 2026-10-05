@@ -8,7 +8,7 @@ class Controller {
     // operation
     #core;
     #deco;
-    #creator;
+    #generator;
 
     // state
     #remain = 3;
@@ -32,17 +32,17 @@ class Controller {
         this.#button = document.getElementById("play");
         this.#core = new jmotion.Core("#board");
         this.#deco = new Decorator(this.#core.svg);
-        this.#creator = this.#getCreator(this.#core.svg.viewBox.baseVal);
+        this.#generator = this.#getGenerator(this.#core.svg.viewBox.baseVal);
         this.#setShapes();
-        this.#creator.drawCurrent(this.#core);
+        this.#generator.drawCurrent(this.#core);
 
         // events
         document.addEventListener("click", this.#tap.bind(this));
         document.addEventListener("contextmenu", this.#tap.bind(this));
         this.#button.addEventListener("click", this.#play.bind(this));
         this.#deco.setEvents(this.#start.bind(this), this.#restart.bind(this));
-        this.#creator.setEvent("drop", this.#drop.bind(this));
-        this.#creator.setEvent("score", this.#show.bind(this));
+        this.#generator.setEvent("drop", this.#drop.bind(this));
+        this.#generator.setEvent("score", this.#show.bind(this));
 
         // get the high score
         try {
@@ -63,9 +63,9 @@ class Controller {
         this.#remain = 3;
         this.#now = 0;
         this.#score.textContent = this.#now.toLocaleString();
-        this.#creator.setup(1);
-        this.#creator.drawCurrent(this.#core);
-        this.#deco.setScale(this.#creator.getScale());
+        this.#generator.setup(1);
+        this.#generator.drawCurrent(this.#core);
+        this.#deco.setScale(this.#generator.getScale());
         this.#deco.moveCurtain(this.#remain);
     }
 
@@ -75,7 +75,7 @@ class Controller {
             return;
         }
         e.preventDefault();
-        this.#creator.moveArm();
+        this.#generator.moveArm();
     }
 
     // drop process
@@ -85,8 +85,8 @@ class Controller {
         this.#remain--;
         if (0 < this.#remain) {
             this.#lap = window.performance.now() - this.#begin;
-            this.#creator.setup();
-            this.#creator.drawCurrent(this.#core);
+            this.#generator.setup();
+            this.#generator.drawCurrent(this.#core);
             this.#deco.moveCurtain(this.#remain);
             return;
         }
@@ -126,7 +126,7 @@ class Controller {
 
     // run the game
     #run() {
-        this.#creator.drawNext(this.#core);
+        this.#generator.drawNext(this.#core);
 
         // get elapsed time
         const span = window.performance.now() - this.#begin;
@@ -134,10 +134,10 @@ class Controller {
         if (seconds * 1000 < span) {
             const level = this.#count + 1;
             if (5 < level && level % 10 == 5) {
-                this.#creator.setup(5, true);
+                this.#generator.setup(5, true);
                 this.#setLevel(level, "SPEED UP !");
             } else {
-                this.#creator.addBall();
+                this.#generator.addBall();
                 this.#setLevel(level);
             }
         }
@@ -147,7 +147,7 @@ class Controller {
     #setLevel(level, message) {
         this.#count = level;
         this.#level.textContent = level.toLocaleString();
-        this.#deco.setScale(this.#creator.getScale());
+        this.#deco.setScale(this.#generator.getScale());
         if (message) {
             this.#deco.showMessage(message, "fuchsia");
         } else {
@@ -156,8 +156,8 @@ class Controller {
         this.#begin = window.performance.now();
     }
 
-    // get a MotionCreator
-    #getCreator(view) {
+    // get a MotionGenerator
+    #getGenerator(view) {
         // arms
         const right = document.getElementById("robot_right_0");
         const left = document.getElementById("robot_left_0");
@@ -171,7 +171,7 @@ class Controller {
         const lOrbit = document.getElementById("orbit_left_elbow");
         const rArm = new ArmAnimator(rOrbit, rHand, rElbow);
         const lArm = new ArmAnimator(lOrbit, lHand, lElbow);
-        return new MotionCreator(view, rArm, lArm);
+        return new MotionGenerator(view, rArm, lArm);
     }
 
     // set the shapes
