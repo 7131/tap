@@ -14,6 +14,9 @@ svg {
     border: 1px solid gray;
     width: 90vw;
     height: 90vw;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
 
 table {
@@ -26,12 +29,6 @@ table td {
 
 .number {
     text-align: right;
-}
-
-.running {
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
 }
 
 @media (orientation: landscape) {

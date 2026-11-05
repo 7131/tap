@@ -58,7 +58,6 @@ class Controller {
 
     // "Play" button process
     #play(e) {
-        document.body.classList.add("running");
         this.#button.disabled = true;
         this.#remain = 3;
         this.#now = 0;
@@ -99,7 +98,6 @@ class Controller {
         } catch {
         }
         this.#button.disabled = false;
-        document.body.classList.remove("running");
     }
 
     // show score
